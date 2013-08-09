@@ -1,2 +1,2 @@
-Coder
-=====
+SimTrader
+=========

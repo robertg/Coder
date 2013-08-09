@@ -1,0 +1,12 @@
+{
+    "name": "Coder",
+    "description": "Coding App",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "express": "3.x",
+        "angular": "*",
+        "mongoose": "*",
+        "ejs": "*"
+    }
+}
