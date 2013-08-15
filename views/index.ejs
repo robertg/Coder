@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sim Trader</title>
+    <title>Mist</title>
 </head>
-<body>
-    Here is an example body.
-    <% include partial/editor.ejs %>
+<body ng-app="Mist">
+<!--Location of the view-->
+<section id="view" ng-view=""></section>
+<% include partial/main.ejs %>
+<% include partial/hub.ejs %>
+<% include partial/project.ejs %>
+
+<div class="navbar navbar-fixed-bottom navbar-inverse">
+    <div class="navbar-inner">
+        <a class="brand" href="/#">Mist</a>
+        <ul class="nav">
+            <li><a href="/#/hub">Home</a></li>
+            <li><a href="/#/project">Editor</a></li>
+            <li><a href="/#/community">Community</a></li>
+        </ul>
+    </div>
+</div>
+
 </body>
+
+<!--JavaScript References-->
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/controllers.js"></script>
+<link rel="stylesheet" href="css/editor.css"/>
+<link rel="stylesheet" href="css/app.css"/>
+
+<link rel="stylesheet" href="css/bootstrap.min.css"/>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 </html>
