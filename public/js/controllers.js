@@ -16,3 +16,7 @@ Mist.controller('ProjectCtrl', function ProjectCtrl($scope, $http) {
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
 });
+
+Mist.controller('LoginCtrl', function LoginCtrl($scope, $http) {
+
+});
