@@ -38,7 +38,7 @@ var Member = mongoose.Schema(
         email: {type: String, default: ""},
         verified: {type: Boolean, default: false},
         joined: {type: Date, default: Date.now},
-        challengescomplete: [Number],
+        challengescomplete: [Number], //An array containing all id's of completed challenges.
         projects: [Project]
     });
 
@@ -46,12 +46,26 @@ var Member = mongoose.Schema(
 ///
 // CheckPassword(): Sees if a user has actually logged in.
 ///
-Member.methods.CheckPassword = function(bcrypt, inputpassword) {
+Member.methods.CheckPassword = function(bcrypt, inputpassword, callback) {
     bcrypt.compare(inputpassword, this.password, function(err, isMatch) {
-       if(err) console.log(err);
-        return isMatch;
+        callback(err, isMatch);
     });
 }
+
+Member.methods.GetClientJSON = function(statuscode) {
+    var objToJSON = {
+        status: statuscode,
+        username: this.username,
+        joined: this.joined,
+        verified: this.verified,
+        challengescomplete: this.challengescomplete,
+        email: this.email,
+        projects: this.projects
+    };
+
+    return JSON.stringify(objToJSON);
+}
+
 
 module.exports.Member = Member;
 module.exports.Challenge = Challenge;

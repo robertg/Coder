@@ -32,7 +32,8 @@ injector.register(
         mistdatabase: db,
         bcrypt: require('bcrypt'),
         statuscode: require('./service/constants/statuscode'),
-        ideone: require('./service/compiler/IdeOne/ideone')
+        ideone: require('./service/compiler/IdeOne/ideone'),
+        constants: require('./service/constants/constants')
     }
 );
 
@@ -48,16 +49,16 @@ app.get('/api/projects', injector.inject(api.projects).call());
 
 //Compiler-Related Actions
 //Note -> api.check is a middleware function that checks if the user is logged in.
-app.put('/api/submit', api.check, injector.inject(api.submit).call());
+app.post('/api/submit', api.check, injector.inject(api.submit).call());
 app.get('/api/status/:compileID', api.check, injector.inject(api.status).call());
 
 //Project-Related Actions
-app.put('/api/begin/:questionID', api.check, injector.inject(api.begin).call());
+app.post('/api/begin/:questionID', api.check, injector.inject(api.begin).call());
 app.get('/api/project/:projectID/open', api.check, injector.inject(api.open).call());
-app.post('/api/project/:projectID/save', api.check, injector.inject(api.save).call());
+app.put('/api/project/:projectID/save', api.check, injector.inject(api.save).call());
 
 //Account Management:
 app.post('/login', injector.inject(api.login).call());
-app.put('/register', injector.inject(api.register).call());
+app.post('/register', injector.inject(api.register).call());
 
 app.listen(process.env.VMC_APP_PORT || 1337, null);
