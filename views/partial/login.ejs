@@ -1,32 +1,57 @@
 <script id="login.html" type="text/ng-template">
-    <div ng-class="background" id="background">
+    <div ng-class="background" id="background" ng-controller="LoginCtrl">
         <div ng-class="container-fluid" class="container-fluid">
             <div ng-class="row-fluid" class="row-fluid">
-                <div ng-class="span3 offset3 mainbody" class="span3 offset3 mainbody">
-                    <form class="mist-form">
+                <div class="span3 offset3 mainbody">
+                    <form name="registerform" class="mist-form" ng-submit="register.submit(registerform)">
                         <h2>Register</h2>
                         <fieldset>
-                            <input type="text" placeholder="Email Address...">
-                            <span class="help-block">Don't worry, we hate spam.</span>
-                            <input type="text"  placeholder="User Name...">
-                            <br />
-                            <input type="text" placeholder="Password...">
+                            <input type="text" ng-model="register.email" name="email" required
+                                   placeholder="Email Address...">
+                            <span class="help-block"
+                                  ng-show="registerform.email.$dirty">Don't worry, we hate spam.</span>
+                            <input type="text" ng-model="register.username" name="username" required ng-minlength="3"
+                                   ng-pattern="/^\S*$/"
+                                   placeholder="User Name...">
+                            <br/>
+
+                            <p class="error" ng-show="!registerform.username.$valid && registerform.username.$dirty">
+                                Must
+                                be at least 3 characters long, no spaces.</p>
+                            <input type="password" ng-model="register.password" name="password" ng-minlength="5"
+                                   required placeholder="Password...">
                             </br />
-                            <input type="text"  placeholder="Repeat Password...">
-                            <br />
+
+                            <p class="error" ng-show="!registerform.password.$valid && registerform.password.$dirty">
+                                Must
+                                be at least 5 characters long!</p>
+
+                            <input type="password" ng-model="register.passwordrepeat" name="passwordrepeat"
+                                   required placeholder="Repeat Password...">
+                            <br/>
+
+                            <p class="error"
+                               ng-show="registerform.password.$viewValue != registerform.passwordrepeat.$viewValue && registerform.passwordrepeat.$dirty">
+                                Passwords do not match!</p>
                             <button type="submit" class="btn">I Agree And Register</button>
+                            <br />
+                            <p class="error" ng-show="register.servererror">{{ register.servererror }}</p>
                         </fieldset>
                     </form>
                 </div>
-                <div ng-class="span3 mainbody" class="span3 mainbody">
-                    <form class="mist-form" ng-class="mist-form">
+                <div class="span3 mainbody">
+                    <form name="loginform" class="mist-form" ng-submit="login.submit(loginform)">
                         <h2>Log In</h2>
                         <fieldset>
-                            <input type="text"  placeholder="Username...">
-                            <br />
-                            <input type="text"  placeholder="Password...">
-                            <span class="help-block">Just to let you know, you can log in at the bottom.</span>
+                            <input type="text" ng-model="login.username" name="username" required
+                                   placeholder="Username...">
+                            <br/>
+                            <input type="password" ng-model="login.password" name="password" required
+                                   placeholder="Password...">
+                            <br/>
+                            <span ng-show="loginform.password.$dirty" class="help-block">Just to let you know, you can log in at the bottom.</span>
                             <button type="submit" class="btn">Log In</button>
+                            <p class="error" ng-show="login.servererror">{{ login.servererror }}</p>
                         </fieldset>
                     </form>
                 </div>

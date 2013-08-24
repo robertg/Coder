@@ -1,4 +1,4 @@
-var Mist = angular.module('Mist', []).config(
+var Mist = angular.module('Mist', ['ngProgress']).config(
     ['$routeProvider',
         '$locationProvider',
         function ($routeProvider, $locationProvider) {

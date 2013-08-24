@@ -58,7 +58,7 @@ app.get('/api/project/:projectID/open', api.check, injector.inject(api.open).cal
 app.put('/api/project/:projectID/save', api.check, injector.inject(api.save).call());
 
 //Account Management:
-app.post('/login', injector.inject(api.login).call());
-app.post('/register', injector.inject(api.register).call());
+app.post('/api/login', injector.inject(api.login).call());
+app.post('/api/register', injector.inject(api.register).call());
 
 app.listen(process.env.VMC_APP_PORT || 1337, null);

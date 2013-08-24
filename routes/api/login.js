@@ -35,7 +35,7 @@ module.exports = function (statuscode, mistdatabase, bcrypt) {
 //    "challengescomplete": [],
 //    "email": "rgawdzik2@hotmail.com",
 //    "projects": []
-/   }
+//   }
 //
 //  Example Bad Response:
 //  {
