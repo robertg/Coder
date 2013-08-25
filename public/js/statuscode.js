@@ -7,3 +7,8 @@ var statuscode = {
     BAD_PASSWORD: "BAD_PASSWORD",
     BAD_USERNAME: "BAD_USERNAME"
 };
+
+var broadcastcode = {
+    USER_LOGGED_IN: "USER_LOGGED_IN",
+    USER_LOGGED_OUT: "USER_LOGGED_OUT"
+}

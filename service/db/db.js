@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 ///
 function MistDatabase() {
     //Instantiate all properties:
-    this.connection = mongoose.connect("mongodb://mist:mist_dev@ds041238.mongolab.com:41238/mist");
+    this.connection = mongoose.connect("mongodb://mist:mist_dev@ds041238.mongolab.com:41238/mist", {auto_reconnect: true});
     this.MemberModel = mongoose.model('Member', dbschema.Member);
     this.ChallengeModel = mongoose.model('Challenge', dbschema.Challenge);
 
@@ -42,7 +42,7 @@ function MistDatabase() {
 ///
 // GetModel(): Encapsulated Model Retrieval based on a modelname, which is a string.
 ///
-MistDatabase.prototype.GetModel = function(modelName) {
+MistDatabase.prototype.GetModel = function (modelName) {
     switch (modelName) {
         case "Member":
             return this.MemberModel;
@@ -53,7 +53,7 @@ MistDatabase.prototype.GetModel = function(modelName) {
     }
 }
 
-MistDatabase.prototype.GetFields = function(modelName) {
+MistDatabase.prototype.GetFields = function (modelName) {
     switch (modelName) {
         case "Member":
             return this.MemberFields;
@@ -92,10 +92,21 @@ MistDatabase.prototype.Create = function (modelname, params) {
 // Attempts to retrieve an object from the db based on search params.
 // search: An object representing the search params: Ex: {username: "Hello"}
 ///
-MistDatabase.prototype.Read = function(modelname, search, callback) {
+MistDatabase.prototype.Read = function (modelname, search, callback) {
     var Model = this.GetModel(modelname);
 
-    Model.findOne(search, function(err, instance) {
+    Model.findOne(search, function (err, instance) {
+        callback(err, instance);
+    });
+}
+
+///
+//ReadAll(): Reads all objects from the db.
+///
+MistDatabase.prototype.ReadAll = function (modelname, callback) {
+    var Model = this.GetModel(modelname);
+
+    Model.find({}, function (err, instance) {
         callback(err, instance);
     });
 }

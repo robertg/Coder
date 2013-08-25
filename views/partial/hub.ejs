@@ -1,3 +1,30 @@
 <script id="hub.html" type="text/ng-template">
-    <div><h1>Hello World! Hub.html</h1></div>
+    <div ng-class="background" id="background" ng-controller="HubCtrl">
+        <div ng-class="container-fluid" class="container-fluid">
+            <div ng-class="row-fluid" class="row-fluid">
+                <div class="span5 offset1 mainbody">
+                    <h2 class="hubtitle">Challenges</h2>
+
+                    <div class="hubcontainer">
+                        <div class="challenge" ng-repeat="challenge in challenges">
+                            <h2>{{ challenge.title }}</h2>
+
+                            <p>{{ challenge.shortdesc }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="span5 mainbody">
+                    <h2 class="hubtitle">Projects</h2>
+
+                    <div class="hubcontainer">
+                        <div ng-show="projects.length == 0">
+                            It's very lonely in here, maybe start a challenge?
+                        </div>
+                        <div class="project" ng-repeat="project in projects">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </script>

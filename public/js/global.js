@@ -9,6 +9,8 @@ var g_user = {
             return true;
         }
         return false;
+    },
+    reset : function() {
+        this.fields = {username: "", joined: "", verified: "", challengescomplete: [], email : "", projects : []}
     }
-
 };

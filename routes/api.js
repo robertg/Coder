@@ -4,7 +4,7 @@
 module.exports.questions = require('./api/questions');
 
 ///
-// GET: /api/projects - Retrieves projects under the user account.
+// PUT: /api/projects - Retrieves projects under the user account.
 ///
 module.exports.projects = require('./api/projects');
 
@@ -14,17 +14,17 @@ module.exports.projects = require('./api/projects');
 module.exports.begin = require('./api/begin');
 
 ///
-// PUT: api/submit - Submit code for compilation. Returns an id.
+// POST: api/submit - Submit code for compilation. Returns an id.
 ///
 module.exports.submit = require('./api/submit');
 
 ///
-// api/status/:compileID - Retrieve the status of the submitted code, via id.
+// PUT: api/status/:compileID - Retrieve the status of the submitted code, via id.
 ///
 module.exports.status = require('./api/status');
 
 ///
-//GET: /api/project/:projectID/open - Opens a project.
+//PUT: /api/project/:projectID/open - Opens a project.
 ///
 module.exports.open = require('./api/open');
 

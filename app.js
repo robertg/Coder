@@ -39,22 +39,22 @@ injector.register(
 
 
 //Routes:
-//* - Route all to index.
+//* - Route all GET requests to index.
 app.get('*', routes.index);
 //API:
 
-//Hub-Related Retrievals:
-app.get('/api/questions', injector.inject(api.questions).call());
-app.get('/api/projects', injector.inject(api.projects).call());
+//Hub-Related Retrievals (Note, PUT is used instead of GET because of get rerouting by *):
+app.put('/api/questions', injector.inject(api.questions).call());
+app.put('/api/projects', injector.inject(api.projects).call());
 
 //Compiler-Related Actions
 //Note -> api.check is a middleware function that checks if the user is logged in.
 app.post('/api/submit', api.check, injector.inject(api.submit).call());
-app.get('/api/status/:compileID', api.check, injector.inject(api.status).call());
+app.put('/api/status/:compileID', api.check, injector.inject(api.status).call());
 
 //Project-Related Actions
 app.post('/api/begin/:questionID', api.check, injector.inject(api.begin).call());
-app.get('/api/project/:projectID/open', api.check, injector.inject(api.open).call());
+app.put('/api/project/:projectID/open', api.check, injector.inject(api.open).call());
 app.put('/api/project/:projectID/save', api.check, injector.inject(api.save).call());
 
 //Account Management:
