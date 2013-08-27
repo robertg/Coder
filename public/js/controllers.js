@@ -51,12 +51,26 @@ Mist.controller('HubCtrl', function HubCtrl($scope, $http) {
     //Retrieve Questions:
     $http({method: 'PUT', url: '/api/questions'})
         .success(
-            function(data) {
-                $scope.challenges = data;
-                $scope.projects = [];
-            }
-        );
+        function (data) {
+            $scope.challenges = data;
+            $scope.projects = g_user.fields.projects;
+        }
+    );
 
+
+});
+
+///
+// Begins a project under the user, and brings the user to the appropriate project:
+// Route: /begin/:challengeID
+///
+Mist.controller('BeginCtrl', function BeginCtrl($scope, $http, $routeParams, $location) {
+    $http({method: 'POST', url: '/api/begin/' + $routeParams.challengeid,
+        data: g_user.getRequestObject() })
+        .success(function (data) {
+            g_user.fields = data.client;
+            $location.path('/project/' + data.options.projectid);
+        });
 
 });
 
@@ -84,7 +98,6 @@ Mist.controller('LoginCtrl', function LoginCtrl($scope, $http, progressbar, $loc
         g_user.reset();
         UpdateMain();
     }
-
 
     ///
     // UpdateMain(): Update the whole app:

@@ -25,7 +25,8 @@ var Challenge = mongoose.Schema(
 
 var Project = mongoose.Schema(
     {
-        challenge: { type: mongoose.Schema.ObjectId, ref: "Challenge" },
+        challenge: { type: Object, ref: "Challenge" },
+        projectid: {type: Number, default: 0},
         timeremaining: {type: Number, default: 0},
         sourcecode: {type: String, default: ""}
     }
@@ -46,13 +47,20 @@ var Member = mongoose.Schema(
 ///
 // CheckPassword(): Sees if a user has actually logged in.
 ///
-Member.methods.CheckPassword = function(bcrypt, inputpassword, callback) {
-    bcrypt.compare(inputpassword, this.password, function(err, isMatch) {
+Member.methods.CheckPassword = function (bcrypt, inputpassword, callback) {
+    bcrypt.compare(inputpassword, this.password, function (err, isMatch) {
         callback(err, isMatch);
     });
 }
 
-Member.methods.GetClientJSON = function(statuscode) {
+///
+// GetClientJSON(statuscode, options): Returns a JSON string with a response JSON structure.
+// statuscode: The status of the client.
+// options: An object containing options. If this is not null, then a structure in the form of a
+// response is sent. client => client, options => the actual options.
+//
+///
+Member.methods.GetClientJSON = function (statuscode, options) {
     var objToJSON = {
         status: statuscode,
         username: this.username,
@@ -63,7 +71,17 @@ Member.methods.GetClientJSON = function(statuscode) {
         projects: this.projects
     };
 
-    return JSON.stringify(objToJSON);
+    //This client should get send with no options:
+    if (options == null) {
+        return JSON.stringify(objToJSON);
+    }
+
+    var objToReturn = {
+        client: objToJSON,
+        options: options
+    }
+
+    return JSON.stringify(objToReturn);
 }
 
 

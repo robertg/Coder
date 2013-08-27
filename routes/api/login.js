@@ -1,4 +1,4 @@
-// POST: /login - Logins into the Mist service.
+// POST: /api/login - Logins into the Mist service.
 module.exports = function (statuscode, mistdatabase, bcrypt) {
     return function (req, res) {
 

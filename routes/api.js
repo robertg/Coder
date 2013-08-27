@@ -47,10 +47,28 @@ module.exports.register = require('./api/register');
 ///
 // check(): A middleware function that sees if a user is already logged in.
 ///
-module.exports.check = function (req, res, next) {
-    if (!req.session.usercredentials) {
-        res.send(errorcode.UNAUTHORIZED);
-    } else {
-        next();
+module.exports.check = function (statuscode, mistdatabase) {
+    return function (req, res, next) {
+        if(req.body.username.length > 0) {
+            next();
+        } else {
+            statuscode.BadResponse(res, statuscode.UNAUTHORIZED);
+        }
+        //Read Issue #5 -> Create Middleware API authentication
+        /*
+        mistdatabase.Read('Member', {username: req.body.username}, function (err, instance) {
+            if (instance == null) {
+                statuscode.BadResponse(res, statuscode.UNAUTHORIZED);
+            } else {
+                instance.CheckPassword(bcrypt, req.body.password, function (err, isMatch) {
+                    if (isMatch) {
+                        next();
+                    } else {
+                        statuscode.BadResponse(res, statuscode.UNAUTHORIZED);
+                    }
+                });
+            }
+        });
+        */
     }
 }

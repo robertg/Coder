@@ -12,5 +12,8 @@ var g_user = {
     },
     reset : function() {
         this.fields = {username: "", joined: "", verified: "", challengescomplete: [], email : "", projects : []}
+    },
+    getRequestObject : function() {
+        return this.fields;
     }
 };

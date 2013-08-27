@@ -6,7 +6,17 @@ var mongoose = require('mongoose'),
 ///
 function MistDatabase() {
     //Instantiate all properties:
-    this.connection = mongoose.connect("mongodb://mist:mist_dev@ds041238.mongolab.com:41238/mist", {auto_reconnect: true});
+
+    var options = {
+        db: { native_parser: true },
+        server: { poolSize: 5 },
+        replset: { }
+    }
+    options.server.socketOptions = options.replset.socketOptions = { keepAlive: 1 };
+
+    mongoose.connect("mongodb://mist:mist_dev@ds041238.mongolab.com:41238/mist", options);
+
+
     this.MemberModel = mongoose.model('Member', dbschema.Member);
     this.ChallengeModel = mongoose.model('Challenge', dbschema.Challenge);
 
@@ -33,12 +43,12 @@ function MistDatabase() {
         'challengeid',
         'completionvalue'
     ];
-
-    //TEST
-    var created = new this.MemberModel();
-    created.email = "Modified #2";
-    this.Update("Member", created);
 }
+
+MistDatabase.prototype.RefreshConnection = function () {
+
+}
+
 ///
 // GetModel(): Encapsulated Model Retrieval based on a modelname, which is a string.
 ///
@@ -114,10 +124,10 @@ MistDatabase.prototype.ReadAll = function (modelname, callback) {
 ///
 // Updates an object in the database.
 ///
-MistDatabase.prototype.Update = function (modelname, instance) {
+MistDatabase.prototype.Update = function (modelname, instance, callback) {
+
     var Model = this.GetModel(modelname);
     var fields = this.GetFields(modelname);
-
 
     //A clean object without a link to a Mongoose Schema must be passed into the model.update().
     var updateObj = new Object();
@@ -126,7 +136,10 @@ MistDatabase.prototype.Update = function (modelname, instance) {
         updateObj[fields[i]] = instance[fields[i]];
     }
 
-    Model.update({__id: instance.__id}, updateObj, false, true);
+    Model.update({__id: instance.__id}, { $set: updateObj }, {upsert: true}, function(err) {
+        callback(err, null);
+    });
+
 }
 
 MistDatabase.prototype.Delete = function (modelname, instance) {

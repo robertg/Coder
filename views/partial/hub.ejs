@@ -10,6 +10,7 @@
                             <h2>{{ challenge.title }}</h2>
 
                             <p>{{ challenge.shortdesc }}</p>
+                            <button><a ng-href="/begin/{{challenge.challengeid}}">Begin</a></button>
                         </div>
                     </div>
                 </div>
@@ -17,11 +18,14 @@
                     <h2 class="hubtitle">Projects</h2>
 
                     <div class="hubcontainer">
-                        <div ng-show="projects.length == 0">
+                        <div class="projectsempty" ng-show="projects.length == 0">
                             It's very lonely in here, maybe start a challenge?
                         </div>
                         <div class="project" ng-repeat="project in projects">
+                            <h2>{{ project.challenge.title }}</h2>
 
+                            <p>{{ project.timeremaining }}</p>
+                            <button><a ng-href="/project/{{project.projectid}}">Resume</a></button>
                         </div>
                     </div>
                 </div>

@@ -49,13 +49,13 @@ app.put('/api/projects', injector.inject(api.projects).call());
 
 //Compiler-Related Actions
 //Note -> api.check is a middleware function that checks if the user is logged in.
-app.post('/api/submit', api.check, injector.inject(api.submit).call());
-app.put('/api/status/:compileID', api.check, injector.inject(api.status).call());
+app.post('/api/submit', injector.inject(api.check).call(), injector.inject(api.submit).call());
+app.put('/api/status/:compileid', injector.inject(api.check).call(), injector.inject(api.status).call());
 
 //Project-Related Actions
-app.post('/api/begin/:questionID', api.check, injector.inject(api.begin).call());
-app.put('/api/project/:projectID/open', api.check, injector.inject(api.open).call());
-app.put('/api/project/:projectID/save', api.check, injector.inject(api.save).call());
+app.post('/api/begin/:questionid', injector.inject(api.check).call(), injector.inject(api.begin).call());
+app.put('/api/project/:projectid/open', injector.inject(api.check).call(), injector.inject(api.open).call());
+app.put('/api/project/:projectid/save', injector.inject(api.check).call(), injector.inject(api.save).call());
 
 //Account Management:
 app.post('/api/login', injector.inject(api.login).call());

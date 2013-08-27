@@ -11,7 +11,8 @@ var Mist = angular.module('Mist', ['ngProgress']).config(
                 .when('/question/:id', {templateUrl: 'question.html', controller: 'QuestionCtrl'})
                 //Opens a Project under a specific id.
                 .when('/project', {templateUrl: 'project.html', controller: 'ProjectCtrl'})
-                .when('/login', {templateUrl: 'login.html'});
+                .when('/login', {templateUrl: 'login.html'})
+                .when('/begin/:challengeid', {templateUrl: 'begin.html'});
             $locationProvider.html5Mode(true);
         }
     ]);
