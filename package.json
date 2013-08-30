@@ -10,6 +10,7 @@
         "ejs": "*",
         "soap": "*",
         "dependency-injector": "0.0.5",
-        "bcrypt": "0.7.x"
+        "bcrypt": "0.7.x",
+        "client-sessions": "*"
     }
 }

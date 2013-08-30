@@ -15,5 +15,38 @@ var g_user = {
     },
     getRequestObject : function() {
         return this.fields;
+    },
+    ///
+    // getProject(id): Returns a project from the user, depending on projectID.
+    ///
+    getProject: function(id) {
+        for(var i = 0; i < this.fields.projects.length; i++) {
+            if(id == this.fields.projects[i].projectid) {
+                return this.fields.projects[i];
+            }
+        }
+        return null;
     }
 };
+
+
+///
+// Console(): Represents a console found in the project page:
+///
+function Console() {
+    this.text = "> --Output--";
+}
+
+///
+// write(): Write a newline to the console.
+///
+Console.prototype.write = function(text) {
+    this.text += "\r> " + text;
+}
+
+///
+// flush(): Clear out the text.
+///
+Console.prototype.flush = function() {
+    this.text = "";
+}

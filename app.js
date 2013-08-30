@@ -5,13 +5,15 @@ var http = require('http'),
     compiler = require('./service/compiler/compiler'),
     api = require('./routes/api'),
     mongoose = require('mongoose'),
-    dbschema = require('./models/dbschema'),
     mistdatabase = require('./service/db/db'),
-    DI = require('dependency-injector');
+    DI = require('dependency-injector'),
+    sessions = require("client-sessions");
 
 var app = express();
 
 app.configure(function () {
+    //App requires sessions:
+    app.use(sessions({cookieName: 'usersession', secret: 'asdfkjj34l2jupiuiikjasdlfj59995liI'}));
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
     app.use(express.bodyParser());
@@ -20,7 +22,6 @@ app.configure(function () {
     app.use(express.static(__dirname + '/public'));
     app.use(app.router);
 });
-
 
 //Dependencies:
 var db = new mistdatabase();
@@ -60,5 +61,7 @@ app.put('/api/project/:projectid/save', injector.inject(api.check).call(), injec
 //Account Management:
 app.post('/api/login', injector.inject(api.login).call());
 app.post('/api/register', injector.inject(api.register).call());
+app.put('/api/ready', injector.inject(api.ready).call());
+app.put('/api/logout', injector.inject(api.logout).call());
 
 app.listen(process.env.VMC_APP_PORT || 1337, null);

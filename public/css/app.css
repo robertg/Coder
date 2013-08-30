@@ -65,6 +65,21 @@ body {
     margin-bottom: 50px;
 }
 
+.toolbarcontainer {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.toolbarchild {
+    background-color: rgba(255, 255, 255, 0.7);
+    -moz-border-radius: 10px; /* for Firefox */
+    -webkit-border-radius: 10px; /* for Webkit-Browsers */
+    border-radius: 10px; /* regular */
+    overflow-y: auto;
+    margin-bottom: 5px;
+    height: 50%;
+}
+
 .bodytitle {
     text-align: center;
     font-size: 60px;
@@ -75,8 +90,18 @@ body {
     font-size: 20px;
 }
 
+.standardtext {
+    padding: 5px;
+}
+
 .mist-form {
     text-align: center;
+}
+
+.iocontainer {
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 50%;
+    float: left;
 }
 
 .navbarmist {
@@ -88,6 +113,45 @@ body {
     text-align: center;
 }
 
+.centertext {
+    text-align: center;
+}
+
+.toolbaroutput {
+    margin-left: 2px;
+    height: 70%;
+    width: 90%;
+    background-color: rgba(10, 10, 10, 0.6);
+    color: black;
+}
+
+.toolbar-btn-container {
+    margin-left: 2px;
+}
+
 .projectsempty {
     text-align: center;
 }
+
+.project {
+    background-color: rgba(255, 255, 249, 0.7);
+    -moz-border-radius: 10px; /* for Firefox */
+    -webkit-border-radius: 10px; /* for Webkit-Browsers */
+    border-radius: 10px; /* regular */
+    margin-bottom: 2px;
+}
+
+.challenge {
+    background-color: rgba(251, 255, 251, 0.7);
+    -moz-border-radius: 10px; /* for Firefox */
+    -webkit-border-radius: 10px; /* for Webkit-Browsers */
+    border-radius: 10px; /* regular */
+    margin-bottom: 2px;
+}
+
+.hubbody {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    overflow-y: auto;
+}
+

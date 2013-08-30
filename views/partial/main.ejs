@@ -27,20 +27,27 @@
                             <li>No dependency to java web</li>
                             <li>Ability to solve programming problems</li>
                         </ol>
-                        <h3>// Get Started</h3>
 
-                        <p>Why don't you try it out?</p>
-
-                        <div class="btn-group">
-                            <button class="btn" ng-class="btn">Guest</button>
-                            <a href="/login"><button class="btn" ng-class="btn">Sign Up</button></a>
-                            <a href="/login"><button class="btn" ng-class="btn">Log In</button></a>
-                        </div>
                         <h3>// The Target Audience</h3>
                         Mist targets students, professionals, and anyone in between. Whether you want
                         to just get better at solving stuff, or you want to prepare for an interview,
                         Mist is right for you.
 
+                        <div ng-show="!toolbarlogin.loggedin">
+                            <h3>// Get Started</h3>
+
+                            <p>Why don't you try it out?</p>
+
+                            <div class="btn-group">
+                                <button class="btn" ng-class="btn">Guest</button>
+                                <a href="/login">
+                                    <button class="btn" ng-class="btn">Sign Up</button>
+                                </a>
+                                <a href="/login">
+                                    <button class="btn" ng-class="btn">Log In</button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
 

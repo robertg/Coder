@@ -2,8 +2,19 @@
 // MainCtrl: Manages all global properties of the app.
 ///
 Mist.controller('MainCtrl', function MainCtrl($scope, $http, $location, progressbar) {
-    if (!g_user.ready()) { //There is no global user, try retrieving from session.
-        //TODO: Implement nodejs sessions.
+
+    if (!g_user.ready()) { //There is no global user, try retrieving from the cookie session.
+        $http({method: 'PUT', url: '/api/ready'})
+            .success(
+            function (data) {
+                //This user is already logged in, let's get the fields:
+                if (data.status == statuscode.AUTHORIZED) {
+                    g_user.fields = data;
+                    $scope.g_user = g_user;
+                    $scope.toolbarlogin.loggedin = (g_user.ready()) ? true : false;
+                }
+            }
+        )
     }
 
     //Allow the scope to linked to the global user, and to come into context on the UI.
@@ -40,7 +51,10 @@ Mist.controller('MainCtrl', function MainCtrl($scope, $http, $location, progress
                         }
 
                         progressbar.complete();
+
+                        //Propagate the changes to all controllers:
                         $scope.toolbarlogin.loggedin = (g_user.ready()) ? true : false;
+                        $scope.g_user = g_user;
                     });
             }
         }
@@ -53,11 +67,17 @@ Mist.controller('HubCtrl', function HubCtrl($scope, $http) {
         .success(
         function (data) {
             $scope.challenges = data;
-            $scope.projects = g_user.fields.projects;
         }
     );
 
+    // ---JQUERY---
+    function ResizeHub() {
+        $('.hubbody').height($(window).height() - 125);
+    }
 
+    $(window).off('resize');
+    $(window).resize(ResizeHub);
+    ResizeHub();
 });
 
 ///
@@ -65,7 +85,7 @@ Mist.controller('HubCtrl', function HubCtrl($scope, $http) {
 // Route: /begin/:challengeID
 ///
 Mist.controller('BeginCtrl', function BeginCtrl($scope, $http, $routeParams, $location) {
-    $http({method: 'POST', url: '/api/begin/' + $routeParams.challengeid,
+    $http({method: 'POST', url: '/api/begin/' + $routeParams.id,
         data: g_user.getRequestObject() })
         .success(function (data) {
             g_user.fields = data.client;
@@ -81,12 +101,43 @@ Mist.controller('QuestionCtrl', function QuestionCtrl($scope, $http) {
 ///
 // ProjectCtrl: Manages the projects of a user.
 ///
-Mist.controller('ProjectCtrl', function ProjectCtrl($scope, $http) {
+Mist.controller('ProjectCtrl', function ProjectCtrl($scope, $http, $routeParams) {
+    $scope.project = g_user.getProject($routeParams.id);
+
     //Handle the project code editor:
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
+
+
+    // ---JQUERY---
+    function ResizeAce() {
+        $('#editor').height($(window).height() - 75);
+        $('#editor').width($('#editorcontainer').width());
+        $('.toolbarcontainer').height($(window).height() - 75);
+        editor.resize();
+    }
+
+    $(window).off('resize');
+    $(window).resize(ResizeAce);
+
+    ResizeAce();
+    // ---JQUERY END---
+
+    // ---Manage Console---
+    $scope.console = new Console();
+
+    // ---Manage Tools
+    $scope.tools = {
+        save: function() {
+            $scope.console.write("-- SAVED --");
+        },
+        compile: function() {
+
+        }
+    }
 });
+
 
 ///
 // LoginCtrl: Manages the login of a user, communicates to MainCtrl.
@@ -96,6 +147,14 @@ Mist.controller('LoginCtrl', function LoginCtrl($scope, $http, progressbar, $loc
     if (g_user.ready()) {
         //It's time to log out the user:
         g_user.reset();
+
+        //Logout from the server session:
+        $http({method: 'PUT', url: '/api/logout'})
+            .success(
+            function (data) {
+
+            });
+
         UpdateMain();
     }
 

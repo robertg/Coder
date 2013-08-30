@@ -47,28 +47,43 @@ module.exports.register = require('./api/register');
 ///
 // check(): A middleware function that sees if a user is already logged in.
 ///
-module.exports.check = function (statuscode, mistdatabase) {
+module.exports.check = function (statuscode) {
     return function (req, res, next) {
-        if(req.body.username.length > 0) {
+        if (req.usersession.username) {
             next();
         } else {
             statuscode.BadResponse(res, statuscode.UNAUTHORIZED);
         }
-        //Read Issue #5 -> Create Middleware API authentication
-        /*
-        mistdatabase.Read('Member', {username: req.body.username}, function (err, instance) {
-            if (instance == null) {
-                statuscode.BadResponse(res, statuscode.UNAUTHORIZED);
-            } else {
-                instance.CheckPassword(bcrypt, req.body.password, function (err, isMatch) {
-                    if (isMatch) {
-                        next();
-                    } else {
-                        statuscode.BadResponse(res, statuscode.UNAUTHORIZED);
-                    }
-                });
-            }
-        });
-        */
+    }
+}
+
+///
+// ready(): An api call that checks to see if the user is already logged in.
+///
+module.exports.ready = function (statuscode, mistdatabase) {
+    return function (req, res) {
+        if (req.usersession.username) {
+            mistdatabase.Read('Member', {username: req.usersession.username}, function (err, instance) {
+                if (instance == null) {
+                    statuscode.BadResponse(res, statuscode.BAD_USERNAME);
+                } else {
+                    res.writeHead(200, {"Content-Type": "application/json"});
+                    res.write(instance.GetClientJSON(statuscode.AUTHORIZED));
+                    res.send();
+                }
+            });
+        } else {
+            statuscode.BadResponse(res, statuscode.UNAUTHORIZED);
+        }
+    }
+}
+///
+// logout(): An api call that clears the user session.
+///
+module.exports.logout = function(statuscode) {
+    return function(req, res) {
+        //Resets the User Session, so another user can log in.
+        req.usersession.reset();
+        statuscode.BadResponse(res, statuscode.SUCCESS);
     }
 }

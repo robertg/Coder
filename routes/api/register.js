@@ -35,6 +35,9 @@ module.exports = function (statuscode, constants, bcrypt, mistdatabase) {
                                     email: req.body.email
                                 });
 
+                                //Update the username session:
+                                req.usersession.username = user.username;
+
                                 res.writeHead(200, {"Content-Type": "application/json"});
                                 res.write(user.GetClientJSON(statuscode.USER_CREATED));
                                 res.send();

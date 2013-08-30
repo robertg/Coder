@@ -8,6 +8,9 @@ module.exports = function (statuscode, mistdatabase, bcrypt) {
             } else {
                 instance.CheckPassword(bcrypt, req.body.password, function (err, isMatch) {
                     if (isMatch) {
+                        //Update the username session:
+                        req.usersession.username = instance.username;
+
                         res.writeHead(200, {"Content-Type": "application/json"});
                         res.write(instance.GetClientJSON(statuscode.AUTHORIZED));
                         res.send();
