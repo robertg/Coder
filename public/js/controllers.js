@@ -104,7 +104,7 @@ Mist.controller('QuestionCtrl', function QuestionCtrl($scope, $http) {
 Mist.controller('ProjectCtrl', function ProjectCtrl($scope, $http, $routeParams) {
     $scope.project = g_user.getProject($routeParams.id);
     $scope.lang = { selected: String($scope.project.language) };
-    
+
     //Handle the project code editor:
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
@@ -143,7 +143,7 @@ Mist.controller('ProjectCtrl', function ProjectCtrl($scope, $http, $routeParams)
                 .success(function (data) {
                     if (data.status == statuscode.AUTHORIZED) {
                         g_user.fields = data;
-                        console.log(data);
+                        
                         $scope.console.write("-- SAVED --");
                     } else {
                         $scope.console.write("-- SAVE FAILED --");
