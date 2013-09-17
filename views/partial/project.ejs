@@ -32,17 +32,22 @@
                     <div class="toolbarchild">
                         <h4 class="hubtitle">Project Output</h4>
                         <textarea class="toolbaroutput" readonly>{{ console.text }}</textarea>
+
                         <div class="toolbar-btn-container">
                             <a class="btn btn-warning" ng-click="tools.save()">Save</a>
                             <a class="btn btn-success" ng-click="tools.compile()">Compile & Submit</a>
                         </div>
-
+                        <br/>
+                        <!--Programming Language Selection-->
+                        <div class="row-fluid">
+                            <label class="span4 selectlabel">Language:</label>
+                            <select class="span8" ng-model="lang.selected" ng-options="language.key as language.value for language in languages" ng-change="languageSelected(lang.selected)">
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
     </div>
-
-
 </script>

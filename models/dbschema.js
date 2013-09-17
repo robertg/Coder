@@ -40,7 +40,8 @@ var Member = mongoose.Schema(
         verified: {type: Boolean, default: false},
         joined: {type: Date, default: Date.now},
         challengescomplete: [Number], //An array containing all id's of completed challenges.
-        projects: [Project]
+        projects: [Project],
+        language: {type: Number, default: 1} //Represents the preferred programming language.
     });
 
 
@@ -68,7 +69,8 @@ Member.methods.GetClientJSON = function (statuscode, options) {
         verified: this.verified,
         challengescomplete: this.challengescomplete,
         email: this.email,
-        projects: this.projects
+        projects: this.projects,
+        language: this.language
     };
 
     //This client should get send with no options:

@@ -17,16 +17,21 @@ function deepLog(obj) {
 
 function IdeOneCompiler() {
     this.soapURL = 'http://ideone.com/api/1/service.wsdl';
-
-    soap.createClient(this.soapURL, function (err, client) {
-        this.service = new IdeOneService(client);
-    })
 }
+
 
 IdeOneCompiler.prototype = new compiler.Compiler();
 
-IdeOneCompiler.prototype.SupportedLanguages = function () {
+IdeOneCompiler.prototype.SupportedLanguages = function (callback) {
+    return this.service.getLanguages(callback);
+}
 
+IdeOneCompiler.prototype.Start = function(callback) {
+    var context = this;
+    soap.createClient(this.soapURL, function (err, client) {
+        context.service = new IdeOneService(client);
+        callback(err);
+    });
 }
 
 ///
@@ -149,7 +154,6 @@ IdeOneService.prototype.getSubmissionDetails = function (link) {
 
             //Let's set the current result from the IdeOne API:
             SubResult = parseInt(result.return.item[service.getSubmissionDetailEnum.Result].value);
-            console.log(new SubmissionDetails(SubStatus, SubResult, SubDate, SubMemory, SubInput, SubOutput, SubCompilerInfo));
             return new SubmissionDetails(SubStatus, SubResult, SubDate, SubMemory, SubInput, SubOutput, SubCompilerInfo);
         }
     );
@@ -162,14 +166,14 @@ IdeOneService.prototype.getSubmissionDetails = function (link) {
 //  { key: '13', value: 'Assembler (nasm-2.10.01)' },...
 // ]
 ///
-IdeOneService.prototype.getLanguages = function () {
+IdeOneService.prototype.getLanguages = function (callback) {
     //Make this scope explicit, so it won't be confused.
     var service = this;
     service.client.getLanguages({user: service.devCredentials.User, pass: service.devCredentials.Pass}, function (err, result) {
         if (err) console.log(err);
 
         //The array of Languages:
-        return result.return.item[service.getLanguagesEnum.Languages].value.item;
+        callback(err, result.return.item[service.getLanguagesEnum.Languages].value.item);
     });
 }
 

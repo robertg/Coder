@@ -2,7 +2,6 @@ var http = require('http'),
     express = require('express'),
     routes = require('./routes'),
     angular = require('angular'),
-    compiler = require('./service/compiler/compiler'),
     api = require('./routes/api'),
     mongoose = require('mongoose'),
     mistdatabase = require('./service/db/db'),
@@ -33,7 +32,7 @@ injector.register(
         mistdatabase: db,
         bcrypt: require('bcrypt'),
         statuscode: require('./service/constants/statuscode'),
-        ideone: require('./service/compiler/IdeOne/ideone'),
+        compiler: require('./service/compiler/IdeOne/ideone'),
         constants: require('./service/constants/constants')
     }
 );
@@ -46,12 +45,12 @@ app.get('*', routes.index);
 
 //Hub-Related Retrievals (Note, PUT is used instead of GET because of get rerouting by *):
 app.put('/api/questions', injector.inject(api.questions).call());
-app.put('/api/projects', injector.inject(api.projects).call());
 
 //Compiler-Related Actions
 //Note -> api.check is a middleware function that checks if the user is logged in.
-app.post('/api/submit', injector.inject(api.check).call(), injector.inject(api.submit).call());
-app.put('/api/status/:compileid', injector.inject(api.check).call(), injector.inject(api.status).call());
+app.post('/api/project/:projectid/compile', injector.inject(api.check).call(), injector.inject(api.submit).call());
+app.put('/api/compiler/:compileid/status', injector.inject(api.check).call(), injector.inject(api.status).call());
+app.put('/api/compiler/languages', injector.inject(api.languages).call());
 
 //Project-Related Actions
 app.post('/api/begin/:questionid', injector.inject(api.check).call(), injector.inject(api.begin).call());

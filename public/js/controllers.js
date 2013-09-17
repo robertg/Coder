@@ -103,12 +103,15 @@ Mist.controller('QuestionCtrl', function QuestionCtrl($scope, $http) {
 ///
 Mist.controller('ProjectCtrl', function ProjectCtrl($scope, $http, $routeParams) {
     $scope.project = g_user.getProject($routeParams.id);
+    $scope.lang = { selected: 27};
+
+    console.log($scope.lang);
 
     //Handle the project code editor:
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
-
+    editor.setValue($scope.project.sourcecode, 0);
 
     // ---JQUERY---
     function ResizeAce() {
@@ -127,15 +130,56 @@ Mist.controller('ProjectCtrl', function ProjectCtrl($scope, $http, $routeParams)
     // ---Manage Console---
     $scope.console = new Console();
 
-    // ---Manage Tools
-    $scope.tools = {
-        save: function() {
-            $scope.console.write("-- SAVED --");
-        },
-        compile: function() {
+    //Retrieve languages:
+    $http({method: 'PUT', url: '/api/compiler/languages'})
+        .success(function(data) {
+           $scope.languages = data;
+           $scope.lang = { selected: 27};
+           });
 
+    // ---Manage Tools---
+    $scope.tools = {
+        save: function () {
+            $scope.project.sourcecode = editor.getValue();
+            g_user.setProject($scope.project);
+            $http({method: 'PUT', url: '/api/project/' + $routeParams.id + '/save', data: g_user.fields})
+                .success(function (data) {
+                    if (data.status == statuscode.AUTHORIZED) {
+                        g_user.fields = data;
+                        $scope.console.write("-- SAVED --");
+                    } else {
+                        $scope.console.write("-- SAVE FAILED --");
+                    }
+                })
+                .error(function () {
+                    $scope.console.write("-- SAVE FAILED --");
+                });
+        },
+        compile: function () {
+            //Make sure the project is saved:
+            $scope.project.sourcecode = editor.getValue();
+            g_user.setProject($scope.project);
+            $http({method: 'PUT', url: '/api/project/' + $routeParams.id + '/save', data: g_user.fields})
+                .success(function (data) {
+                    if (data.status == statuscode.AUTHORIZED) {
+                        g_user.fields = data;
+
+                        //Send a request to compile:
+
+
+                    } else {
+                        $scope.console.write("-- ERROR OCCURRED --");
+                    }
+                });
         }
     }
+    ///
+    //
+    ///
+    $scope.languageSelected = function(value) {
+        console.log(value);
+    }
+
 });
 
 

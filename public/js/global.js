@@ -3,7 +3,7 @@
 ///
 var g_user = {
     //Base fields of a global user context:
-    fields: {username: "", joined: "", verified: "", challengescomplete: [], email : "", projects : []},
+    fields: {username: "", joined: "", verified: "", challengescomplete: [], email : "", projects : [], language: 0},
     ready: function () {
         if (this.fields.username.length > 0) { //This is a real user, otherwise it is a template.
             return true;
@@ -26,6 +26,13 @@ var g_user = {
             }
         }
         return null;
+    },
+    setProject: function(project) {
+        for(var i = 0; i < this.fields.projects.length; i++) {
+            if(project.projectid == this.fields.projects[i].projectid) {
+                this.fields.projects[i] = project;
+            }
+        }
     }
 };
 
