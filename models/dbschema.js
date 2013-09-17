@@ -28,7 +28,8 @@ var Project = mongoose.Schema(
         challenge: { type: Object, ref: "Challenge" },
         projectid: {type: Number, default: 0},
         timeremaining: {type: Number, default: 0},
-        sourcecode: {type: String, default: ""}
+        sourcecode: {type: String, default: ""},
+        language: {type: Number, default: 1} //Represents the preferred programming language.
     }
 );
 
@@ -40,9 +41,8 @@ var Member = mongoose.Schema(
         verified: {type: Boolean, default: false},
         joined: {type: Date, default: Date.now},
         challengescomplete: [Number], //An array containing all id's of completed challenges.
-        projects: [Project],
-        language: {type: Number, default: 1} //Represents the preferred programming language.
-    });
+        projects: [Project]
+         });
 
 
 ///

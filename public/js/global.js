@@ -3,7 +3,7 @@
 ///
 var g_user = {
     //Base fields of a global user context:
-    fields: {username: "", joined: "", verified: "", challengescomplete: [], email : "", projects : [], language: 0},
+    fields: {username: "", joined: "", verified: "", challengescomplete: [], email : "", projects : []},
     ready: function () {
         if (this.fields.username.length > 0) { //This is a real user, otherwise it is a template.
             return true;

@@ -28,8 +28,7 @@ function MistDatabase() {
         'verified',
         'joined',
         'challengescomplete',
-        'projects',
-        'language'
+        'projects'
     ];
     this.ChallengeFields = [
         'title',

@@ -22,7 +22,7 @@ module.exports = function (statuscode, mistdatabase) {
             } else {
                 statuscode.BadResponse(statuscode.FAILURE);
             }
-
+            //Members that can be saved during a project manipulation:
             userdb.projects = req.body.projects;
 
             //Update the user:
